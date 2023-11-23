@@ -1,0 +1,10 @@
+FROM debian:22.04
+RUN apt-get update \
+    && apt-get install -y openssh-server \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -r -m -d /home/cn330 \
+       -s /bin/bash -g root -G sudo -u 1000 cn330 \
+    && echo 'cn330:1234' | chpasswd \
+    && service ssh start
+
+CMD ["/usr/sbin/sshd", "-D", "e"]

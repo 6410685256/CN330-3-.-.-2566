@@ -1,0 +1,10 @@
+FROM alpine:3.18.4
+RUN apk update \
+    && rm  -rf /var/cache/apk/* \
+    && apk add --no-cache openssh-server \
+    && ssh-keygen -A \
+    && addgroup -g 1000 cn330 \
+    && adduser -h /home/cn330 \
+       -s /bin/sh -G cn330 -u 1000 -D cn330 \
+    && echo 'cn330:1234' | chpasswd
+CMD ["/usr/sbin/sshd", "-D", "-e"]
